@@ -7,7 +7,6 @@ public class Listing
     public string Id { get; set; }
     public string Type { get; set; }
     public string Site { get; set; }
-    public ArrayList Images { get; set; }
     public double Sqft { get; set; }
     public string Address { get; set; }
     public string Url { get; set; }
@@ -15,12 +14,11 @@ public class Listing
     public int NumBathrooms { get; set; }
     public double Price { get; set; }
     
-    public Listing(string id, string type, string site, ArrayList images, double sqft, string address, string url, int numBedrooms, int numBathrooms, double price, string rawListing)
+    public Listing(string id, string type, string site, double sqft, string address, string url, int numBedrooms, int numBathrooms, double price, string rawListing)
     {
         Id = id;
         Type = type;
         Site = site;
-        Images = images;
         Sqft = sqft;
         Address = address;
         Url = url;

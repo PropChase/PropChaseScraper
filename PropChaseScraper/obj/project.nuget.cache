@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "0otTUOCXRE8awnDcXn9Es2C7E2qrABMXtci0nY5A3M5W8OPca/AqhRxNOvDcBlLYsgYUh7ZYLUpjHK621C9KQA==",
+  "dgSpecHash": "cFubsQ08ds7JQPPsn58VIhhyHlFSg9UtLSvmf1bIcdyRTgC0pRd3jekVxhgSMU+1KZFIkBfZiVwTDk/kD1K0gQ==",
   "success": true,
   "projectFilePath": "/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/PropChaseScraper.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/jonas/.nuget/packages/htmlagilitypack/1.11.65/htmlagilitypack.1.11.65.nupkg.sha512",
+    "/Users/jonas/.nuget/packages/selenium.webdriver/4.24.0/selenium.webdriver.4.24.0.nupkg.sha512"
+  ],
   "logs": []
 }

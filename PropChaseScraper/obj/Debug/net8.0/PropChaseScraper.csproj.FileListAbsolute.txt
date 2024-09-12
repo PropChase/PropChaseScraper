@@ -27,3 +27,10 @@
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/obj/Debug/net8.0/PropChaseScraper.pdb
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/obj/Debug/net8.0/PropChaseScraper.genruntimeconfig.cache
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/obj/Debug/net8.0/ref/PropChaseScraper.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/HtmlAgilityPack.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/obj/Debug/net8.0/PropChaseScraper.csproj.AssemblyReference.cache
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/obj/Debug/net8.0/PropChas.33ADC1C4.Up2Date
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/selenium-manager/linux/selenium-manager
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/selenium-manager/macos/selenium-manager
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/selenium-manager/windows/selenium-manager.exe
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/WebDriver.dll

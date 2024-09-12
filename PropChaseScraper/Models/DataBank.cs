@@ -4,11 +4,11 @@ namespace PropChaseScraper.Models;
 
 public class DataBank
 {
-    public ArrayList Listings { get; set; }
+    public List<Listing> Listings { get; set; }
     
     public DataBank()
     {
-        Listings = new ArrayList();
+        Listings = new List<Listing>();
     }   
 
     public void EmptyListings()
