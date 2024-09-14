@@ -11,6 +11,7 @@ public class CentrisSiteScraper : ISiteScraper
 { 
     private List<string> ScrapePropertyLinks()
     {
+        Console.WriteLine("Scraping Centris...");
         var url = "https://www.centris.ca/en/properties~for-sale~montreal-island?view=Thumbnail&utm_source=google&utm_medium=paid&utm_campaign=20547519783&utm_content=158952966872&utm_term=&gad_source=1&gbraid=0AAAAADy2M1GMrxbqlcqiswSf-yNkG0vnc&gclid=Cj0KCQjwtsy1BhD7ARIsAHOi4xY9lETR3qlsJy9yxux8iTjZMZhrYdPuMkHaPSERZuWqZ-FUwF57TNQaAoptEALw_wcB&uc=0";
         var links = new List<string>();
 
@@ -35,18 +36,26 @@ public class CentrisSiteScraper : ISiteScraper
 
                 for (int i = 0; i < propertyDivs.Count; i++)
                 {
-                    // Re-find the div on each iteration to avoid StaleElementReferenceException
-                    var div = driver.FindElement(By.XPath("(//div[contains(@class, 'property-thumbnail-item')])[" + (i + 1) + "]"));
-
-                    // Find the link node within the div
-                    var linkNode = div.FindElement(By.XPath(".//a[contains(@class, 'property-thumbnail-summary-link')]"));
-                    if (linkNode != null)
+                    try
                     {
-                        var link = linkNode.GetAttribute("href");
-                        if (!string.IsNullOrEmpty(link))
+                        var div = driver.FindElement(By.XPath("(//div[contains(@class, 'property-thumbnail-item')])[" + (i + 1) + "]"));
+
+                        // Find the link node within the div
+                        var linkNode = div.FindElement(By.XPath(".//a[contains(@class, 'property-thumbnail-summary-link')]"));
+                        if (linkNode != null)
                         {
-                            links.Add(link);
+                            var link = linkNode.GetAttribute("href");
+                            if (!string.IsNullOrEmpty(link))
+                            {
+                                links.Add(link);
+                            }
                         }
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        Console.WriteLine(
+                            "Element is no longer attached to the DOM. Continue with the next iteration.");
+                        continue;
                     }
                 }
 
@@ -79,16 +88,20 @@ public class CentrisSiteScraper : ISiteScraper
                 }
             }
         }
-
+        Console.WriteLine("Centris scraped.\n \n \n");
         return links;
     }
     private List<Listing> MapLinksToListings(List<string> links)
     {
+        Console.WriteLine("Mapping Centris links to listings...");
         List<Listing> listings = new List<Listing>();
         var web = new HtmlWeb();
         
+        int currentLink = 0;
+        
         foreach (string link in links)
         {
+            Console.WriteLine($"Mapping link {currentLink++} of {links.Count}...");
             // Load the page
             var doc = web.Load(link);
             
@@ -117,7 +130,7 @@ public class CentrisSiteScraper : ISiteScraper
                 listings.Add(listing);
             }
         }
-
+        Console.WriteLine("Centris links mapped to listings.\n \n \n");
         return listings;
     }
     private double ExtractPrice(HtmlNode priceNode)
