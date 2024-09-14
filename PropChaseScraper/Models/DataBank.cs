@@ -1,23 +1,48 @@
 using System.Collections;
+using PropChaseScraper.DataLayer;
+using PropChaseScraper.Scrapers;
 
 namespace PropChaseScraper.Models;
 
 public class DataBank
 {
-    public List<Listing> Listings { get; set; }
+    private static DataBank _instance = new DataBank();
+    private List<Listing> Listings { get; set; }
     
-    public DataBank()
+    private DataBank()
     {
         Listings = new List<Listing>();
     }   
 
-    public void EmptyListings()
+    private void EmptyListings()
     {
         Listings.Clear();
     }
 
-    public void getData()
+    public void GetData(CentrisSiteScraper scraper)
     {
-        
+        Listings = scraper.GetListings();
+        PostToDatabase();
+    }
+    
+    public void GetData(RoyalLePageScraper scraper)
+    {
+        scraper.Scrape(this);
+        PostToDatabase();
+    }
+
+    public void PostToDatabase()
+    {
+        MongoDBInterface db = MongoDBInterface.Instance;
+        db.PostListings(Listings);
+        EmptyListings();
+    }
+    
+    public static DataBank Instance
+    {
+        get
+        {
+            return _instance;
+        }
     }
 }

@@ -1,15 +1,15 @@
+using System.Text;
 using HtmlAgilityPack;
 using PropChaseScraper.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace PropChaseScraper.Scrapers;
 
 public class CentrisSiteScraper : ISiteScraper
 { 
-    private List<string> GetAllLinksToListings()
+    private List<string> ScrapePropertyLinks()
     {
         var url = "https://www.centris.ca/en/properties~for-sale~montreal-island?view=Thumbnail&utm_source=google&utm_medium=paid&utm_campaign=20547519783&utm_content=158952966872&utm_term=&gad_source=1&gbraid=0AAAAADy2M1GMrxbqlcqiswSf-yNkG0vnc&gclid=Cj0KCQjwtsy1BhD7ARIsAHOi4xY9lETR3qlsJy9yxux8iTjZMZhrYdPuMkHaPSERZuWqZ-FUwF57TNQaAoptEALw_wcB&uc=0";
         var links = new List<string>();
@@ -82,10 +82,9 @@ public class CentrisSiteScraper : ISiteScraper
 
         return links;
     }
-
-    public void MapLinksToListings(List<string> links)
+    private List<Listing> MapLinksToListings(List<string> links)
     {
-        var listings = new List<Listing>();
+        List<Listing> listings = new List<Listing>();
         var web = new HtmlWeb();
         
         foreach (string link in links)
@@ -93,56 +92,128 @@ public class CentrisSiteScraper : ISiteScraper
             // Load the page
             var doc = web.Load(link);
             
-            // fetch pertinent sections of the page
+            // fetch pertinent sections of the page by their XPath
             var priceNode = doc.DocumentNode.SelectSingleNode("//span[@id='BuyPrice']");
-            var TypeNode = doc.DocumentNode.SelectSingleNode("//span[@data-id='PageTitle']");
-            var netAreaNode = doc.DocumentNode.SelectSingleNode("//div[.//div[text()='Net area']]");
+            var typeNode = doc.DocumentNode.SelectSingleNode("//span[@data-id='PageTitle']");
+            var sqftNode = doc.DocumentNode.SelectSingleNode("//div[@class='carac-value']/span[contains(text(), 'sqft')]");
+            var address = doc.DocumentNode.SelectSingleNode("//h2[@itemprop='address']");
+            var bedroomNode = doc.DocumentNode.SelectSingleNode("//div[@class='col-lg-3 col-sm-6 cac']");
+            var bathroomNode = doc.DocumentNode.SelectSingleNode("//div[@class='col-lg-3 col-sm-6 sdb']");
+            var roomNode = doc.DocumentNode.SelectSingleNode("//div[@class='col-lg-3 col-sm-6 piece']");
 
-            if (priceNode != null)
+            if (priceNode != null && typeNode != null && sqftNode != null && bathroomNode != null && bedroomNode != null && address != null && roomNode != null)
             {
-                // Get house price
-                var priceString = priceNode.InnerHtml;
-                priceString = priceString.Replace("$", "").Replace(",", "");
-                double price = double.Parse(priceString);
+                Listing listing = new Listing(
+                    ExtractType(typeNode), 
+                    "Centris", 
+                    ExtractSqft(sqftNode),
+                    ExtractAddress(address), 
+                    link, 
+                    ExtractBedrooms(bedroomNode), 
+                    ExtractBathrooms(bathroomNode),
+                    ExtractPrice(priceNode), 
+                    ExtractRooms(roomNode));
                 
-                // Get house type
-                var typeString = TypeNode.InnerHtml;
-                
-                // Set house site
-                var site = "Centris";
-                
-                // Get sqft
-                var parentDiv = netAreaNode.ParentNode;
-                var sqftNode = parentDiv.SelectSingleNode("following-sibling::div");
-                Console.WriteLine(sqftNode.InnerHtml);
-                double sqft = 0;
-                
-                if (sqftNode != null)
-                {
-                    // Get the square footage as a string
-                    var sqftString = sqftNode.InnerHtml;
-
-                    // Remove the "sqft" from the string
-                    sqftString = sqftString.Replace("sqft", "").Trim();
-
-                    // Parse the string to a double
-                    sqft = double.Parse(sqftString);
-                }
-
-                Console.WriteLine($"Price: {price} \n" +
-                                  $"Type: {typeString} \n" +
-                                  $"Site: {site} \n" +
-                                  $"Sqft: {sqft} \n" +
-                                  $"" );
+                listings.Add(listing);
             }
-            
+        }
+
+        return listings;
+    }
+    private double ExtractPrice(HtmlNode priceNode)
+    {
+        var priceString = priceNode.InnerHtml;
+        priceString = priceString.Replace("$", "").Replace(",", "");
+        return double.Parse(priceString);
+    }
+    private string ExtractType(HtmlNode typeNode)
+    {
+        return typeNode.InnerHtml;
+    }
+    private double ExtractSqft(HtmlNode sqftNode)
+    {
+        var sqftString = sqftNode.InnerHtml;
+        sqftString = sqftString.Replace("sqft", "").Trim();
+        return double.Parse(sqftString);
+    }
+    private int ExtractBathrooms(HtmlNode bathroomNode)
+    {
+        var bathroomString = bathroomNode.InnerHtml;
+        var numericString = new StringBuilder();
+
+        foreach (var ch in bathroomString)
+        {
+            if (char.IsDigit(ch))
+            {
+                numericString.Append(ch);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (numericString.ToString() == "")
+        {
+            return 0;
+        }
+        else
+        {
+            return int.Parse(numericString.ToString());
         }
     }
-    
-    public void FillDataBank(DataBank dataBank)
+    private int ExtractBedrooms(HtmlNode bedroomNode)
     {
-        List<string> links = GetAllLinksToListings();
+        var bedroomString = bedroomNode.InnerHtml;
+        var numericString = new StringBuilder();
+
+        foreach (var ch in bedroomString)
+        {
+            if (char.IsDigit(ch))
+            {
+                numericString.Append(ch);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (numericString.ToString() == "")
+        {
+            return 0;
+        }
+        else
+        {
+            return int.Parse(numericString.ToString());
+        }
+    }
+    private double ExtractRooms(HtmlNode roomNode)
+    {
+        var roomString = roomNode.InnerHtml;
+        roomString = roomString.Replace("room", "").Trim();
         
-        Console.WriteLine("Fill data bank with Centris data");
+        if (roomString.Contains("s"))
+        {
+            roomString = roomString.Replace("s", "").Trim();
+        }
+        
+        return double.Parse(roomString);
+    }
+    private string ExtractAddress(HtmlNode addressNode)
+    {
+        return addressNode.InnerHtml.Trim();
+    }
+    
+    public List<Listing> GetListings()
+    {
+        List<string> links = ScrapePropertyLinks();
+        return MapLinksToListings(links);
+    }
+    
+    public void Scrape()
+    {
+        DataBank db = DataBank.Instance;
+        db.GetData(this);
     }
 }

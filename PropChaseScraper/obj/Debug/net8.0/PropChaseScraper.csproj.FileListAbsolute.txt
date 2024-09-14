@@ -34,3 +34,17 @@
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/selenium-manager/macos/selenium-manager
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/selenium-manager/windows/selenium-manager.exe
 /Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/WebDriver.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/AWSSDK.Core.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/AWSSDK.SecurityToken.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/DnsClient.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/MongoDB.Bson.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/MongoDB.Driver.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/MongoDB.Driver.Core.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/MongoDB.Libmongocrypt.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/SharpCompress.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/Snappier.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/ZstdSharp.dll
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/runtimes/linux/native/libmongocrypt.so
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/runtimes/osx/native/libmongocrypt.dylib
+/Users/jonas/Documents/GitHub/PropChaseScraper/PropChaseScraper/bin/Debug/net8.0/runtimes/win/native/mongocrypt.dll

@@ -2,7 +2,7 @@ using PropChaseScraper.Models;
 
 namespace PropChaseScraper.Scrapers;
 
-public interface ISiteScraper
+public interface  ISiteScraper
 {
-    void FillDataBank(DataBank dataBank);
+    void Scrape();
 }
