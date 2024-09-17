@@ -6,11 +6,11 @@ public abstract class Handler
 {
     public Handler? NextHandler { get; set; }
     
-    public virtual void Handle(DataBank dataBank)
+    public virtual void Handle()
     {
         if (NextHandler != null)
         {
-            NextHandler.Handle(dataBank);
+            NextHandler.Handle();
         }
     }
 }

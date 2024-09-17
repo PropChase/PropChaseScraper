@@ -1,4 +1,16 @@
-﻿using PropChaseScraper.Scrapers;
+﻿using PropChaseScraper.SiteHandlers;
 
-CentrisSiteScraper cs = new CentrisSiteScraper();
-cs.Scrape();
+namespace PropChaseScraper
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Handler centrisHandler = new CentrisScrapingHandler();
+            //centrisHandler.Handle();
+            
+            
+        }
+    }
+}
+

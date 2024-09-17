@@ -9,6 +9,8 @@ public class Listing
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public ObjectId Id { get; set; }
+    
+    public byte? Score { get; set; }
     public string? Type { get; set; }
     public string? Site { get; set; }
     public double? Sqft { get; set; }
@@ -43,6 +45,8 @@ public class Listing
                $"URL: {Url}\n" +
                $"Bedrooms: {NumBedrooms}\n" +
                $"Bathrooms: {NumBathrooms}\n" +
-               $"Price: {Price}\n";
+               $"Price: {Price}\n" +
+               $"Score: {Score}\n";
+        
     }
 }

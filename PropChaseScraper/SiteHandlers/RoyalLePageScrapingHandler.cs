@@ -4,9 +4,9 @@ namespace PropChaseScraper.SiteHandlers;
 
 public class RoyalLePageScrapingHandler : Handler
 {
-    public override void Handle(DataBank dataBank)
+    public override void Handle()
     {
         Console.WriteLine("Handle Royal LePage site scraper");
-        base.Handle(dataBank);
+        base.Handle();
     }
 }
