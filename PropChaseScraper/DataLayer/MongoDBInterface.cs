@@ -2,6 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using PropChaseScraper.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PropChaseScraper.DataLayer;
 
@@ -20,59 +21,54 @@ public class MongoDBInterface
         var database = client.GetDatabase("Listings"); 
 
         var collection = database.GetCollection<Listing>("Listings");
+        
+        ScoreListing(listings);
 
         collection.InsertMany(listings);
     }
     
-    private void ScoreListings(List<Listing> listings)
+    private void ScoreListing(List<Listing> listings)
     {
-        Dictionary<string, List<Listing>> neighborhoodGroups = new Dictionary<string, List<Listing>>();
-
+        // categorize by neighbourhood
+        List<List<Listing>> listingsByNeighbourhood = new List<List<Listing>>();
+        
         foreach (var listing in listings)
         {
-            string neighborhood = ExtractNeighborhoodFromAddress(listing.Address); // You need to implement this method
-
-            if (neighborhoodGroups.ContainsKey(neighborhood))
+            bool found = false;
+            foreach (var neighbourhoodListings in listingsByNeighbourhood)
             {
-                neighborhoodGroups[neighborhood].Add(listing);
+                if (neighbourhoodListings[0].Neighbourhood == listing.Neighbourhood)
+                {
+                    neighbourhoodListings.Add(listing);
+                    found = true;
+                    break;
+                }
             }
-            else
+
+            if (!found)
             {
-                neighborhoodGroups[neighborhood] = new List<Listing> { listing };
+                listingsByNeighbourhood.Add(new List<Listing> {listing});
             }
         }
-    }
-    
-    //AIzaSyAVDexlW2Oi7N1nIRtxG6sOeIPamrIJCHo
-    private string ExtractNeighborhoodFromAddress(string address)
-    {
-        string googleMapsApiKey = Environment.GetEnvironmentVariable("AIzaSyAVDexlW2Oi7N1nIRtxG6sOeIPamrIJCHo");
-        string requestUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key={googleMapsApiKey}";
-
-        using (HttpClient client = new HttpClient())
+            
+        foreach (var neighbourhoodListings in listingsByNeighbourhood)
         {
-            HttpResponseMessage response = client.GetAsync(requestUrl);
-            if (response.IsSuccessStatusCode)
+            double interval = 100.0 / neighbourhoodListings.Count;
+            double score = 100;
+                
+            List<Listing> sortedListings = neighbourhoodListings.OrderBy(listing => listing.Price / listing.Sqft).ToList();
+    
+            foreach (var listing in sortedListings)
             {
-                string content = await response.Content.ReadAsStringAsync();
-                dynamic json = JsonConvert.DeserializeObject(content);
-
-                foreach (var result in json.results)
+                listing.Score = Convert.ToByte(Math.Round(score));
+                score -= interval;
+                    
+                if (score < 0)
                 {
-                    foreach (var component in result.address_components)
-                    {
-                        foreach (var type in component.types)
-                        {
-                            if (type == "neighborhood")
-                            {
-                                return component.long_name;
-                            }
-                        }
-                    }
+                    score = 0;
                 }
             }
         }
-        return "Neighborhood";
     }
     
     public static MongoDBInterface Instance

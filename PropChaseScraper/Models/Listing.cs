@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -15,6 +16,7 @@ public class Listing
     public string? Site { get; set; }
     public double? Sqft { get; set; }
     public string? Address { get; set; }
+    public string? Neighbourhood { get; set; }
     public string? Url { get; set; }
     public int? NumBedrooms { get; set; }
     public int? NumBathrooms { get; set; }
@@ -33,6 +35,7 @@ public class Listing
         NumBathrooms = numBathrooms;
         Price = price;
         NumRooms = numRooms;
+        FindNeighbourhood();
     }
     
     public override string ToString()
@@ -48,5 +51,22 @@ public class Listing
                $"Price: {Price}\n" +
                $"Score: {Score}\n";
         
+    }
+
+    private void FindNeighbourhood()
+    {
+        switch (Site)
+        {
+            case "Centris":
+                string keyword = "Neighbourhood";
+                int index = Address.IndexOf(keyword);
+                int start = index + keyword.Length;
+                Neighbourhood = Address.Substring(start).Trim();
+                break;
+            
+            default:
+                Neighbourhood = "Unknown";
+                break;
+        }
     }
 }
