@@ -31,7 +31,7 @@ public class DataBank
         PostToDatabase();
     }
 
-    public void PostToDatabase()
+    private void PostToDatabase()
     {
         MongoDBInterface db = MongoDBInterface.Instance;
         db.PostListings(Listings);
