@@ -12,7 +12,7 @@ PropChaseScraper is a C# application designed to scrape property listings from v
 
 ## Classes
 
-- `Program`: The main entry point of the application.
+- `Program`: The main entry point of the application
 - `Listing`: Represents a property listing with various attributes such as type, site, square footage, address, URL, number of bedrooms, bathrooms, price, and score.
 - `MongoDBInterface`: Handles the connection to the MongoDB database and provides methods for posting listings to the database.
 - `DataBank`: Acts as a data store for the scraped listings and provides methods for getting data from the scrapers and posting it to the database.
