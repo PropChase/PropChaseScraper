@@ -9,8 +9,8 @@ namespace PropChaseScraper
     {
         static void Main(string[] args)
         {
-            //Handler centrisHandler = new CentrisScrapingHandler();
-            //centrisHandler.Handle();
+            Handler centrisHandler = new CentrisScrapingHandler();
+            centrisHandler.Handle();
         }
     }
 }
