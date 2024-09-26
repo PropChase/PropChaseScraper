@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using PropChaseScraper.DataLayer;
 using PropChaseScraper.Models;
 using PropChaseScraper.SiteHandlers;
 
@@ -7,10 +8,10 @@ namespace PropChaseScraper
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Handler centrisHandler = new CentrisScrapingHandler();
-            centrisHandler.Handle();
+            // Handler centrisHandler = new CentrisScrapingHandler();
+            // centrisHandler.Handle();
         }
     }
 }

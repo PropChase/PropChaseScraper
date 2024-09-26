@@ -27,7 +27,7 @@ public class MongoDBInterface
         collection.InsertMany(listings);
     }
     
-    private void ScoreListing(List<Listing> listings)
+    public void ScoreListing(List<Listing> listings)
     {
         // categorize by neighbourhood
         List<List<Listing>> listingsByNeighbourhood = new List<List<Listing>>();
