@@ -1,6 +1,6 @@
 # PropChaseScraper
 
-PropChaseScraper is a C# application designed to scrape property listings from various real estate websites and store them in a MongoDB database. The application categorizes and scores the listings based on their neighbourhood and price per square foot.
+PropChaseScraper is a C# application designed to scrape property listings from various real estate websites and store them in a MongoDB database. This app is created to be run continiously as a microseervice on either Azure or Amazon (we used Azure). The application categorizes and scores the listings based on their neighbourhood and price per square foot.
 
 ## Features
 
